@@ -1,35 +1,9 @@
-from collections import deque
-
 import streamlit as st
-from PIL import Image
-import pandas as pd
 
-from helpers.player import Player
-from helpers.game import Game
-from helpers import gui
+from helpers.gui import gui_workers
 from helpers.config import MAX_PLAYERS
 
-
-# st.button('click', on_click=gui.display_your_cards())
-
-
-# fix the sidebar width, center the image, expand the width of the main canvas
-st.markdown(
-    """
-    <style>
-        section[data-testid="stSidebar"] {
-            width: 420px !important; # Set the width to your desired value
-        }
-        div[data-testid="stImage"] {
-            margin: auto 
-        }
-        .css-1y4p8pa {
-            max-width: 76rem
-        }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+col1_outer, col2_outer = st.columns([3, 1])
 
 with st.sidebar:
     with st.form("input_form"):
@@ -56,40 +30,4 @@ with st.sidebar:
         with col2:
             big_blind_input = st.number_input('Big blind value', min_value=0, value=2, key='big_blind_input')
 
-        new_game_button = st.form_submit_button("Start a new game", on_click=gui.create_new_game)
-
-#table_image_placeholder = st.empty()
-
-#empty_table_img = Image.open('assets/table.jpg')
-#table_image_placeholder.image(empty_table_img, width=900)
-
-if 'hide' not in st.session_state:
-    st.session_state.hide = False
-
-
-def show_hide():
-    st.session_state.hide = not st.session_state.hide
-
-
-st.button('Show/Hide', on_click=show_hide)
-
-if st.session_state.hide:
-    secret = st.container()
-    with secret:
-        st.write('hi')
-
-# print(new_game.community_cards)
-# print(new_game.players)
-# print('----')
-# new_game.deal_cards('pre-flop')
-# print(new_game.community_cards)
-# print(new_game.players[0].cards)
-# print('----')
-# new_game.deal_cards('flop')
-# print(new_game.community_cards)
-# print('----')
-# new_game.deal_cards('turn')
-# print(new_game.community_cards)
-# print('----')
-# new_game.deal_cards('river')
-# print(new_game.community_cards)
+        new_game_button = st.form_submit_button("Start a new game", on_click=gui_workers.create_game_layout)

@@ -1,9 +1,14 @@
+import itertools
+
 from helpers.cards import PlayingCard
 
 
 class Player:
+    id_iter = itertools.count() # in order to assign new id to each new class instance
+
     def __init__(self, name, behavior='Standard', funds=200):
         self.name = name
+        self.id = next(self.id_iter)
         self.behavior = behavior
         self.funds = funds
         self.cards = []
