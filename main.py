@@ -31,3 +31,5 @@ with st.sidebar:
             big_blind_input = st.number_input('Big blind value', min_value=0, value=2, key='big_blind_input')
 
         new_game_button = st.form_submit_button("Start a new game", on_click=gui_workers.create_game_layout)
+
+gui_workers.manipulate_css()

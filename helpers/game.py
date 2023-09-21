@@ -83,6 +83,7 @@ class Round:
         self.active_players_bets = {}
         self.scores = {}
         self._do_blinds()  # place blinds to the bank
+        self.deal_cards()
 
         # the current set of players may be different from the initial one because
         # some may fold

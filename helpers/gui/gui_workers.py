@@ -6,17 +6,11 @@ import pandas as pd
 from helpers.player import Player
 from helpers.game import Game
 from helpers.config import ROUND_STAGES
-from helpers.gui.image_workers import draw_table_cards
+from helpers.gui.image_workers import draw_table_cards, draw_your_cards
 
 
-def create_game_layout(new_game=True):
-    """This function creates and recreates the whole game layout."""
-    if new_game:
-        create_new_game()
-    if 'game' not in st.session_state:
-        return
-
-    # fix the sidebar width, center the image, expand the width of the main canvas, and set up custom font size
+def manipulate_css():
+    """Fix the sidebar width, center the image, expand the width of the main canvas, and set up custom font size."""
     st.markdown(
         """
         <style>
@@ -36,6 +30,14 @@ def create_game_layout(new_game=True):
         """,
         unsafe_allow_html=True,
     )
+
+
+def create_game_layout(new_game=True):
+    """This function creates and recreates the whole game layout."""
+    if new_game:
+        create_new_game()
+    if 'game' not in st.session_state:
+        return
 
     # create upper row
     col1_outer, col2_outer = st.columns([3, 1])
@@ -59,10 +61,21 @@ def create_game_layout(new_game=True):
                           unsafe_allow_html=True)
 
             st.button('Next', key='next_button', on_click=perform_next_action)
+
             display_table()  # display game table
+
             # display your cards
-            col1_your_cards, col2_your_cards = st.columns([1, 3])
+            col1_your_cards, col2_your_cards, col3_your_cards = st.columns([1, 3, 2])
             col1_your_cards.header("Your cards:")
+            with col2_your_cards:
+                display_your_cards()
+            if st.session_state['round'].players[0] == st.session_state['you']:
+                col3_your_cards.button('Check', on_click=perform_next_action)
+                col3_your_cards.button('Fold', on_click=perform_next_action)
+                col3_your_cards.button('Bet', on_click=perform_next_action)
+                col3_your_cards.number_input('Your bet amount', min_value=0, max_value=st.session_state['you'].funds,
+                                             step=1, key='your_bet_amount_input',
+                                             on_change=create_game_layout, args=(False,))
     # in upper right corner
     with col2_outer:
         if new_game:
@@ -102,6 +115,7 @@ def create_new_game():
     min_funds = min([r['Funds'] for r in edited_rows.values() if r['Funds'] >= st.session_state['big_blind_input']])
     your_player = Player('You', 'You', min_funds)
     players.append(your_player)
+    st.session_state['you'] = your_player
 
     game = Game(players=players,
                 small_blind=st.session_state['small_blind_input'],
@@ -160,7 +174,10 @@ def display_table():
 
 def display_your_cards():
     """Show the cards in your hand."""
-    pass
+    your_cards = st.session_state['you'].cards
+    img_your_cards = draw_your_cards(your_cards)
+    st.image(img_your_cards)
+
 
 def perform_next_action():
     st.session_state['round'].next_event() # invoke next event

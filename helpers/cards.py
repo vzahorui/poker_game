@@ -1,9 +1,7 @@
 import random
 from dataclasses import dataclass, field
 
-
-RANKS = '2 3 4 5 6 7 8 9 10 J Q K A'.split()
-SUITS = '♣ ♢ ♡ ♠'.split()
+from helpers.config import SUITS, RANKS
 
 
 @dataclass(frozen=True)
