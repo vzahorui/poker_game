@@ -3,10 +3,12 @@ from collections import deque
 import streamlit as st
 import pandas as pd
 
-from helpers.player import Player
-from helpers.game import Game
-from helpers.config import ROUND_STAGES
-from helpers.gui.image_workers import draw_table_cards, draw_your_cards
+from utils.player import Player
+from utils.game import Game
+from utils.gui.image_workers import draw_table_cards, draw_your_cards
+
+
+ROUND_STAGES = ('Pre-flop', 'Flop', 'Turn', 'River')
 
 
 def manipulate_css():

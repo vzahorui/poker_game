@@ -2,9 +2,8 @@ from typing import Optional
 import random
 from collections import deque
 
-from helpers.cards import Deck
-from helpers.player import Player
-from helpers.config import ROUND_STAGES
+from utils.cards import Deck
+from utils.player import Player
 
 
 class Game:

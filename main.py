@@ -1,7 +1,9 @@
 import streamlit as st
 
-from helpers.gui import gui_workers
-from helpers.config import MAX_PLAYERS
+from utils.gui import gui_workers
+
+
+MAX_PLAYERS = 14
 
 col1_outer, col2_outer = st.columns([3, 1])
 

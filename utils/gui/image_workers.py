@@ -2,8 +2,10 @@ import pathlib
 
 from PIL import Image, ImageOps
 
-from helpers.config import BACK_PLAYING_CARD
-from helpers.cards import PlayingCard
+from utils.cards import PlayingCard
+
+
+BACK_PLAYING_CARD = pathlib.Path('assets') / 'back_playing_card.jpg'
 
 
 def draw_table_cards(
